@@ -1,9 +1,11 @@
-import { Button } from "@/components/ui/button";
+import { caller } from "@/trpc/server";
 
-export default function Home() {
+export default async function Home() {
+  const users = await caller.getUsers();
+
   return (
-    <div className="flex min-h-screen items-center font-extrabold text-5xl justify-center bg-zinc-50 font-serif  dark:bg-black">
-      <Button variant="ghost">Click Me</Button>
+    <div className="flex min-h-screen min-w-screen items-center justify-center">
+      {JSON.stringify(users)}
     </div>
   );
 }
