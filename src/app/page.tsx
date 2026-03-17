@@ -1,7 +1,11 @@
-import { caller } from "@/trpc/server";
+"use client";
 
-export default async function Home() {
-  const users = await caller.getUsers();
+import { useTRPC } from "@/trpc/client";
+import { useQuery } from "@tanstack/react-query";
+
+export default function Home() {
+  const trpc = useTRPC();
+  const { data: users } = useQuery(trpc.getUsers.queryOptions());
 
   return (
     <div className="flex min-h-screen min-w-screen items-center justify-center">
