@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/field";
 
 import { Input } from "@/components/ui/input";
-// import { authClient } from "@/lib/auth-client";
+import { authClient } from "@/lib/auth-client";
 
 const registerSchema = z
   .object({
@@ -57,23 +57,23 @@ export function RegisterForm() {
   });
 
   const onSubmit = async (values: RegisterFormValues) => {
-    console.log(values);
-    // await authClient.signUp.email(
-    //   {
-    //     name: values.email,
-    //     email: values.email,
-    //     password: values.password,
-    //     callbackURL: "/",
-    //   },
-    //   {
-    //     onSuccess: () => {
-    //       router.push("/");
-    //     },
-    //     onError: (ctx) => {
-    //       toast.error(ctx.error.message);
-    //     },
-    //   },
-    // );
+    await authClient.signUp.email(
+      {
+        name: values.email,
+        email: values.email,
+        password: values.password,
+        callbackURL: "/",
+      },
+      {
+        onSuccess: () => {
+          router.push("/");
+        },
+        onError: (ctx) => {
+          console.log(ctx);
+          toast.error(ctx.error.message);
+        },
+      },
+    );
   };
 
   return (

@@ -1,6 +1,6 @@
 import { RegisterForm } from "@/features/auth/components/register-form";
 
-export default function LoginPage() {
+export default function RegisterPage() {
   return (
     <div>
       <RegisterForm />
