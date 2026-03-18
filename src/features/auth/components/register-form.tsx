@@ -163,7 +163,7 @@ export function RegisterForm() {
               </Field>
 
               <Button type="submit" className="w-full" disabled={isSubmitting}>
-                {isSubmitting ? "Creating account..." : "Sign up"}
+                {isSubmitting ? "Creating account..." : "Register"}
               </Button>
             </FieldGroup>
 
