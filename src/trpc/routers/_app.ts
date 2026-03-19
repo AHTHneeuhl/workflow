@@ -1,3 +1,5 @@
+import { google } from "@ai-sdk/google";
+import { generateText } from "ai";
 import prisma from "@/lib/prisma";
 import { createTRPCRouter, protectedProcedure } from "../init";
 import { inngest } from "@/inngest/client";
@@ -15,6 +17,15 @@ export const appRouter = createTRPCRouter({
     });
 
     return { success: true, message: "Job queued" };
+  }),
+
+  testAi: protectedProcedure.mutation(async () => {
+    const { text } = await generateText({
+      model: google("gemini-2.5-flash"),
+      prompt: "Write a vegetarian lasagna recipe for 4 people.",
+    });
+
+    return text;
   }),
 });
 
