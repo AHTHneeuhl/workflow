@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { requireAuth } from "@/lib/auth-utils";
 import { useTRPC } from "@/trpc/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 export default function Home() {
   const trpc = useTRPC();
@@ -12,9 +13,7 @@ export default function Home() {
 
   const create = useMutation(
     trpc.createWorkflow.mutationOptions({
-      onSuccess: () => {
-        queryClient.invalidateQueries(trpc.getWorkflows.queryOptions());
-      },
+      onSuccess: () => toast.success("Workflow queued"),
     }),
   );
 
