@@ -15,7 +15,11 @@ export default function Home() {
     }),
   );
 
-  const testAi = useMutation(trpc.testAi.mutationOptions());
+  const testAi = useMutation(
+    trpc.testAi.mutationOptions({
+      onSuccess: () => toast.success("AI job queued"),
+    }),
+  );
 
   return (
     <div className="min-h-screen min-w-screen flex items-center flex-col gap-6 justify-center">
