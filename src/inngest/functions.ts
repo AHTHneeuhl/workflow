@@ -18,6 +18,11 @@ export const executeAi = inngest.createFunction(
         model: google("gemini-2.5-flash"),
         system: "You are a helpful assistant.",
         prompt: "What is the meaning of life?",
+        experimental_telemetry: {
+          isEnabled: true,
+          recordInputs: true,
+          recordOutputs: true,
+        },
       },
     );
 
@@ -28,6 +33,11 @@ export const executeAi = inngest.createFunction(
         model: openai("gpt-5.2"),
         system: "You are a helpful assistant.",
         prompt: "What is the meaning of life?",
+        experimental_telemetry: {
+          isEnabled: true,
+          recordInputs: true,
+          recordOutputs: true,
+        },
       },
     );
 
@@ -38,6 +48,11 @@ export const executeAi = inngest.createFunction(
         model: anthropic("claude-sonnet-4-5"),
         system: "You are a helpful assistant.",
         prompt: "What is the meaning of life?",
+        experimental_telemetry: {
+          isEnabled: true,
+          recordInputs: true,
+          recordOutputs: true,
+        },
       },
     );
 
