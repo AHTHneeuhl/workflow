@@ -1,5 +1,9 @@
 import prisma from "@/lib/prisma";
-import { createTRPCRouter, protectedProcedure } from "../init";
+import {
+  createTRPCRouter,
+  premiumProcedure,
+  protectedProcedure,
+} from "../init";
 import { inngest } from "@/inngest/client";
 
 export const appRouter = createTRPCRouter({
@@ -17,7 +21,7 @@ export const appRouter = createTRPCRouter({
     return { success: true, message: "Job queued" };
   }),
 
-  testAi: protectedProcedure.mutation(async () => {
+  testAi: premiumProcedure.mutation(async () => {
     await inngest.send({
       name: "execute.ai",
     });
