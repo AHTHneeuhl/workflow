@@ -14,11 +14,7 @@ export const appRouter = createTRPCRouter({
       },
     });
 
-    return prisma.workflow.create({
-      data: {
-        name: "test-workflow",
-      },
-    });
+    return { success: true, message: "Job queued" };
   }),
 });
 
