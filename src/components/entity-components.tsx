@@ -134,12 +134,12 @@ interface EntityPaginationProps {
   disabled?: boolean;
 }
 
-export const EntityPagination = ({
+export function EntityPagination({
   page,
   totalPages,
   onPageChange,
   disabled,
-}: EntityPaginationProps) => {
+}: EntityPaginationProps) {
   return (
     <div className="flex items-center justify-between gap-x-2 w-full">
       <div className="flex-1 text-sm text-muted-foreground">
@@ -165,7 +165,7 @@ export const EntityPagination = ({
       </div>
     </div>
   );
-};
+}
 
 interface StateViewProps {
   message?: string;
