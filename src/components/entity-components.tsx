@@ -109,11 +109,11 @@ interface EntitySearchProps {
   placeholder?: string;
 }
 
-export const EntitySearch = ({
+export function EntitySearch({
   value,
   onChange,
   placeholder = "Search",
-}: EntitySearchProps) => {
+}: EntitySearchProps) {
   return (
     <div className="relative ml-auto">
       <SearchIcon className="size-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
@@ -125,7 +125,7 @@ export const EntitySearch = ({
       />
     </div>
   );
-};
+}
 
 interface EntityPaginationProps {
   page: number;
@@ -171,29 +171,29 @@ interface StateViewProps {
   message?: string;
 }
 
-export const LoadingView = ({ message }: StateViewProps) => {
+export function LoadingView({ message }: StateViewProps) {
   return (
     <div className="flex justify-center items-center h-full flex-1 flex-col gap-y-4">
       <Loader2Icon className="size-6 animate-spin text-primary" />
       {!!message && <p className="text-sm text-muted-foreground">{message}</p>}
     </div>
   );
-};
+}
 
-export const ErrorView = ({ message }: StateViewProps) => {
+export function ErrorView({ message }: StateViewProps) {
   return (
     <div className="flex justify-center items-center h-full flex-1 flex-col gap-y-4">
       <AlertTriangleIcon className="size-6 text-primary" />
       {!!message && <p className="text-sm text-muted-foreground">{message}</p>}
     </div>
   );
-};
+}
 
 interface EmptyViewProps extends StateViewProps {
   onNew?: () => void;
 }
 
-export const EmptyView = ({ message, onNew }: EmptyViewProps) => {
+export function EmptyView({ message, onNew }: EmptyViewProps) {
   return (
     <Empty className="border border-dashed bg-white">
       <EmptyHeader>
@@ -210,7 +210,7 @@ export const EmptyView = ({ message, onNew }: EmptyViewProps) => {
       )}
     </Empty>
   );
-};
+}
 
 interface EntityListProps<T> {
   items: T[];
@@ -257,7 +257,7 @@ interface EntityItemProps {
   className?: string;
 }
 
-export const EntityItem = ({
+export function EntityItem({
   href,
   title,
   subtitle,
@@ -266,7 +266,7 @@ export const EntityItem = ({
   onRemove,
   isRemoving,
   className,
-}: EntityItemProps) => {
+}: EntityItemProps) {
   const handleRemove = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -332,4 +332,4 @@ export const EntityItem = ({
       </Card>
     </Link>
   );
-};
+}
