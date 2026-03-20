@@ -14,10 +14,13 @@ model User {
   email         String
   emailVerified Boolean   @default(false)
   image         String?
+
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+
   sessions      Session[]
   accounts      Account[]
+  workflows     Workflow[]
 
   @@unique([email])
 }
@@ -60,6 +63,7 @@ model Verification {
   id         String   @id
   identifier String
   value      String
+
   expiresAt  DateTime
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
@@ -70,4 +74,10 @@ model Verification {
 model Workflow {
   id    String @id @default(cuid())
   name  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
