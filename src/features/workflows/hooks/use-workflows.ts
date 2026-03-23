@@ -37,6 +37,27 @@ export const useCreateWorkflow = () => {
 };
 
 /**
+ * Hook to update a workflow name
+ */
+export const useUpdateWorkflowName = () => {
+  const trpc = useTRPC();
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    trpc.workflows.updateName.mutationOptions({
+      onSuccess: (workflow) => {
+        toast.success(`Workflow ${workflow.name} updated`);
+        queryClient.invalidateQueries(
+          trpc.workflows.getOne.queryOptions({ id: workflow.id }),
+        );
+      },
+      onError: (error) =>
+        toast.error(`Failed to update workflow: ${error.message}`),
+    }),
+  );
+};
+
+/**
  * Hook to remove a workflow
  */
 export const useRemoveWorkflow = () => {
@@ -52,4 +73,12 @@ export const useRemoveWorkflow = () => {
       onError: (error) => toast.error(`Failed to remove workflow: ${error}`),
     }),
   );
+};
+
+/**
+ * Hook to fetch a single workflow using suspense
+ */
+export const useSuspenseWorkflow = (id: string) => {
+  const trpc = useTRPC();
+  return useSuspenseQuery(trpc.workflows.getOne.queryOptions({ id }));
 };
