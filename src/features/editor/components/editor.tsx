@@ -66,6 +66,11 @@ export function Editor({ workflowId }: { workflowId: string }) {
         onConnect={onConnect}
         nodeTypes={nodeComponents}
         onInit={setEditor}
+        snapGrid={[10, 10]}
+        snapToGrid
+        panOnScroll
+        panOnDrag={false}
+        selectionOnDrag
         fitView
       >
         <Background />
