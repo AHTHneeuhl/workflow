@@ -8,15 +8,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -95,7 +86,7 @@ export const HttpRequestDialog = ({
             Configure settings for the HTTP Request node.
           </DialogDescription>
         </DialogHeader>
-        <Form {...form}>
+        {/* <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
             className="space-y-8 mt-4"
@@ -180,7 +171,7 @@ export const HttpRequestDialog = ({
               <Button type="submit">Save</Button>
             </DialogFooter>
           </form>
-        </Form>
+        </Form> */}
       </DialogContent>
     </Dialog>
   );
