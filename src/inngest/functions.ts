@@ -1,65 +1,32 @@
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import { createOpenAI } from "@ai-sdk/openai";
-import { createAnthropic } from "@ai-sdk/anthropic";
-import { generateText } from "ai";
+import { NonRetriableError } from "inngest";
 import { inngest } from "./client";
+import prisma from "@/lib/prisma";
 
-const google = createGoogleGenerativeAI();
-const openai = createOpenAI();
-const anthropic = createAnthropic();
-
-export const executeAi = inngest.createFunction(
-  { id: "execute-ai", triggers: [{ event: "execute.ai" }] },
+export const executeWorkflow = inngest.createFunction(
+  {
+    id: "execute-workflow",
+    triggers: [{ event: "workflows/execute.workflow" }],
+  },
   async ({ event, step }) => {
-    const { steps: geminiSteps } = await step.ai.wrap(
-      "gemini-generate-text",
-      generateText,
-      {
-        model: google("gemini-2.5-flash"),
-        system: "You are a helpful assistant.",
-        prompt: "What is the meaning of life?",
-        experimental_telemetry: {
-          isEnabled: true,
-          recordInputs: true,
-          recordOutputs: true,
-        },
-      },
-    );
+    const workflowId = event.data.workflowId;
 
-    const { steps: openAiSteps } = await step.ai.wrap(
-      "openai-generate-text",
-      generateText,
-      {
-        model: openai("gpt-5.2"),
-        system: "You are a helpful assistant.",
-        prompt: "What is the meaning of life?",
-        experimental_telemetry: {
-          isEnabled: true,
-          recordInputs: true,
-          recordOutputs: true,
-        },
-      },
-    );
+    if (!workflowId) {
+      throw new NonRetriableError("Workflow ID is required");
+    }
 
-    const { steps: anthropicSteps } = await step.ai.wrap(
-      "anthropic-generate-text",
-      generateText,
-      {
-        model: anthropic("claude-sonnet-4-5"),
-        system: "You are a helpful assistant.",
-        prompt: "What is the meaning of life?",
-        experimental_telemetry: {
-          isEnabled: true,
-          recordInputs: true,
-          recordOutputs: true,
+    const nodes = await step.run("prepare-workflow", async () => {
+      const workflow = await prisma.workflow.findUniqueOrThrow({
+        where: {
+          id: workflowId,
         },
-      },
-    );
+        include: {
+          nodes: true,
+        },
+      });
 
-    return {
-      geminiSteps,
-      openAiSteps,
-      anthropicSteps,
-    };
+      return workflow.nodes;
+    });
+
+    return nodes;
   },
 );
