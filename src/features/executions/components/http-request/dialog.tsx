@@ -35,6 +35,12 @@ import { useEffect } from "react";
 const METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE"] as const;
 
 const formSchema = z.object({
+  variableName: z
+    .string()
+    .min(1, "Variable name is required")
+    .regex(/^[A-Za-z_$][A-Za-z0-9_$]*$/, {
+      message: "Variable name must be a valid identifier",
+    }),
   endpoint: z.url({ message: "Please enter a valid URL" }),
   method: z.enum(METHODS),
   body: z.string().optional(),
@@ -58,6 +64,7 @@ export const HttpRequestDialog = ({
   const form = useForm<HttpRequestFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      variableName: defaultValues.variableName || "",
       endpoint: defaultValues.endpoint || "",
       method: defaultValues.method || "GET",
       body: defaultValues.body || "",
@@ -67,6 +74,7 @@ export const HttpRequestDialog = ({
   useEffect(() => {
     if (open) {
       form.reset({
+        variableName: defaultValues.variableName || "",
         endpoint: defaultValues.endpoint || "",
         method: defaultValues.method || "GET",
         body: defaultValues.body || "",
@@ -74,6 +82,7 @@ export const HttpRequestDialog = ({
     }
   }, [open, defaultValues, form]);
 
+  const watchVariableName = form.watch("variableName") || "myApiCall";
   const watchMethod = form.watch("method");
   const showBodyField = ["POST", "PUT", "PATCH"].includes(watchMethod);
 
@@ -100,6 +109,30 @@ export const HttpRequestDialog = ({
             <FieldLegend>Request Configuration</FieldLegend>
 
             <FieldGroup>
+              {/* VARIABLE NAME */}
+
+              <Field>
+                <FieldLabel>Variable Name</FieldLabel>
+
+                <Input
+                  placeholder="myApiCall"
+                  {...form.register("variableName")}
+                />
+
+                <FieldDescription>
+                  Use this name to reference the result in other nodes:{" "}
+                  {`{{${watchVariableName}.httpResponse.data}}`}
+                </FieldDescription>
+
+                {form.formState.errors.variableName && (
+                  <p className="text-sm text-red-500">
+                    {form.formState.errors.variableName.message}
+                  </p>
+                )}
+              </Field>
+
+              <FieldSeparator />
+
               {/* METHOD */}
               <Field>
                 <FieldLabel>Method</FieldLabel>
